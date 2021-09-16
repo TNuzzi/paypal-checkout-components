@@ -1,5 +1,5 @@
 /* @flow */
-import { supportsPopups as userAgentSupportsPopups, isAndroid, isChrome, isIos, isSafari, isSFVC, type Experiment, isDevice } from 'belter/src';
+import { supportsPopups as userAgentSupportsPopups, isAndroid, isChrome, isIos, isSafari, isSFVC, type Experiment, isDevice, isTablet } from 'belter/src';
 import { FUNDING } from '@paypal/sdk-constants/src';
 import { getEnableFunding, getDisableFunding, createExperiment, getFundingEligibility, getPlatform, getComponents } from '@paypal/sdk-client/src';
 import { getRefinedFundingEligibility } from '@paypal/funding-components/src';
@@ -82,6 +82,11 @@ export function createVenmoExperiment() : ?Experiment {
 
     // basic eligibility must be true for venmo to be eligible for the experiments
     if (!hasBasicVenmoEligibility) {
+        return;
+    }
+
+    // exclude experiement if user is on a tablet
+    if (isTablet()) {
         return;
     }
 
